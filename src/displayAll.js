@@ -5,7 +5,7 @@ const fs = require('fs');
     Reads and displays the contents of the data.json file, if it exists.
     */
     function displayAll() {
-    const dataPath = './todoData.json';
+    const dataPath = '../json/data.json';
 
 // Check if the data.json file exists
 if (fs.existsSync(dataPath)) {

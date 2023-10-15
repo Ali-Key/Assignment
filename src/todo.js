@@ -12,7 +12,7 @@ output: process.stdout
 // Prompt for the action to perform
 rl.question("Enter the action you want to perform (add, display, update, delete): ", (input) => {
 const action = input.toLowerCase();
-arduino
+
 
 switch (action) {
     case 'add':

@@ -6,8 +6,8 @@ input: process.stdin,
 output: process.stdout
 });
 
-function updateTodo() {
-const dataPath = './todoData.json';
+function deleteTodo() {
+const dataPath = '../json/todoData.json';
 
 // Check if the data file exists
 if (!fs.existsSync(dataPath)) {
@@ -26,30 +26,31 @@ javascript
 
 const todos = JSON.parse(data);
 
-// Prompt for taskId and taskName
+// Prompt for taskId
 rl.question('Enter taskId: ', (taskId) => {
-  rl.question('Enter taskName: ', (taskName) => {
-    // Update the task with taskId and taskName
-    const updatedTodos = todos.map(todo => {
-      return todo.id === Number(taskId) ? { ...todo, task: taskName } : todo;
-    });
+  // Filter out the task with the given taskId
+  const filteredTodos = todos.filter(task => task.id != taskId);
 
+  // Check if the task was found
+  if (todos.length === filteredTodos.length) {
+    console.log('Task not found');
+  } else {
     // Write the updated data back to the file
-    fs.writeFile(dataPath, JSON.stringify(updatedTodos), (err) => {
+    fs.writeFile(dataPath, JSON.stringify(filteredTodos), (err) => {
       if (err) {
-        console.error('Error updating task:', err);
+        console.error('Error writing file: ', err);
       } else {
-        console.log('Task updated successfully');
+        console.log('Task deleted successfully');
       }
 
       rl.close();
     });
-  });
+  }
 });
 
 });
 }
 
 module.exports = {
-updateTodo
+deleteTodo
 };

@@ -12,10 +12,10 @@ rl.question('Enter taskId: ', (taskId) => {
 // Prompt for taskName
 rl.question('Enter taskName: ', (taskName) => {
 const todo = { id: Number(taskId), task: taskName };
-scheme
+
 
   // Read the data from the file
-  fs.readFile('./todoData.json', 'utf8', (err, data) => {
+  fs.readFile('../json/todoData', 'utf8', (err, data) => {
     if (err) {
       console.log('Error reading data:', err);
       rl.close();
