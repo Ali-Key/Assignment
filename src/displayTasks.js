@@ -1,23 +1,22 @@
 const fs = require('fs');
 
-function deleteTask() {
-  const PathData = './data.json'
-    //sure if file exist or not exist
-    if (fs.existsSync(PathData)) {
+function displayTasks() {
+    const pathData = './data.json';
+  // Check if the file exists
+  if (fs.existsSync()) {
+    // Read the file asynchronously with UTF-8 encoding
+    fs.readFile(pathData, 'utf8', (err, data) => {
+      if (err) {
+        console.error('Error reading the file:', err); // Log the error with console.error for better visibility
+      } else {
+        console.log('Data:', data); // Display the data from the file
+      }
+    });
+  } else {
+    console.log('File not found!'); // Display a clear message if the file doesn't exist
+  }
+}
 
-        //reading file as non-blocking
-        fs.readFile(PathData, 'utf8', (err, data) => {
-            // error handling
-            if (err) {
-                console.log('Error reading ', err);
-            } else {
-                console.log('data', data);
-            }
-        })
-    } else {
-        console.log('not found ! ');
-    }
-}
 module.exports = {
-    deleteTask
-}
+  displayTasks
+};

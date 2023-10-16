@@ -1,55 +1,61 @@
-const fs = require('fs');
-const readline = require('readline');
-const rl = readline.createInterface({
-    input: process.stdin,
-    output: process.stdout
-})
+const fs = require("fs");
+const readline = require("readline");
 
-const randomId = Math.floor(Math.random() * 1000)
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+});
+
+// Generate a random ID between 0 and 999
+const randomId = Math.floor(Math.random() * 1000);
 
 function addTask() {
+    const pathData = './data.json';
+  // Check if the data.json file exists
+  if (fs.existsSync(pathData)) {
+    // Read the data from the file
+    fs.readFile(pathData, "utf8", (err, data) => {
+      // Handle any error while reading the file
+      if (err) {
+        console.log("Error reading file:", err);
+      } else {
+        // Check if data exists in the file
+        if (!data) {
+          console.log("File is empty!");
+        } else {
+          // Prompt the user for the taskName
+          rl.question("Enter taskName: ", (taskName) => {
+            // Parse the JSON data
+            const todos = JSON.parse(data);
 
-    // sure if file exists or not exists
-    if (fs.existsSync('./data.json')) {
+            // Add the new task to the todos array with a random ID
+            const newTask = {
+              id: randomId,
+              task: taskName,
+            };
+            todos.push(newTask);
 
-        //reading file data by using non-blocking method
-        fs.readFile('./data.json', 'utf8', (err, data) => {
-            //after reading file data sure if we have an error or real data 
-            if (err) {
-                console.log('Error reading', err);
-            } else {
-                //take from the user  taskName
-                if (!data) {
-                    console.log('not found ! ');
+            // Write the updated data back to the file
+            fs.writeFile(
+                pathData,
+              JSON.stringify(todos, null, 2),
+              (err) => {
+                if (err) {
+                  console.log("Error writing to file:", err);
                 } else {
-
-                    rl.question('Enter taskName ? : ', (taskName) => {
-
-                        //convert json data into readable format data
-                        const todos = JSON.parse(data);
-
-                        //adding data from the user to the json file
-                        todos.push({ id: randomId, task: taskName })
-
-                        //written data into the json file
-                        fs.writeFile('./data.json', JSON.stringify(todos, null, 2), (err) => {
-                            if (err) {
-                                console.log('Error From Reading File ', err);
-                            } else {
-                                console.log(todos,  'Successfully added task  ', );
-                            }
-                        })
-
-                    })
+                  console.log("Task successfully added:", newTask);
                 }
-            }
-        })
-    } else {
-        console.log(' Opps 404 🤪');
-    }
+              }
+            );
+          });
+        }
+      }
+    });
+  } else {
+    console.log("data.json file not found!");
+  }
 }
-
 
 module.exports = {
-    addTask
-}
+  addTask,
+};

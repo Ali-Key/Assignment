@@ -2,59 +2,56 @@ const fs = require('fs');
 const readline = require('readline');
 
 const rl = readline.createInterface({
-    input: process.stdin,
-    output: process.stdout
-})
+  input: process.stdin,
+  output: process.stdout
+});
 
 function updateTask() {
-    const PathData = './data.json'
-    if (fs.existsSync(PathData)) {
+    const pathData = './data.json';
+  // Check if the file exists
+  if (fs.existsSync(pathData)) {
+    // Read the file asynchronously with UTF-8 encoding
+    fs.readFile(pathData, 'utf8', (err, data) => {
+      if (err) {
+        console.error('Error reading the file:', err);
+      } else {
+        // Handle data from the file
+        if (!data) {
+          console.log('Data not found.'); // Display a message if data is empty
+        } else {
+          rl.question('Enter the taskId: ', (taskId) => {
+            rl.question('Enter the new taskName: ', (taskName) => {
+              const todos = JSON.parse(data);
 
-        fs.readFile(PathData, 'utf8', (err, data) => {
-            if (err) {
-                console.log('Error From ReadFile ');
-            } else {
-                if (!data) {
-                    console.log('Data Not Found  ');
-                } else {
-                    rl.question('Enter taskId ? : ', (taskId) => {
-
-                        rl.question('Enter taskName ? : ', (taskName) => {
-
-                            const todos = JSON.parse(data);
-
-                            const updateTask = todos.map(todo => {
-                                if (todo.id == Number(taskId)) {
-                                    return {
-                                        ...todo,
-                                        task: taskName
-                                    }
-                                }
-
-                                return todo;
-
-                            });
-                            fs.writeFile(PathData, JSON.stringify(updateTask, null, 2), (err) => {
-                                if (err) {
-                                    console.log('Error Writting File  ', err);
-                                } else {
-                                    console.log('Successfully updated task  ');
-                                }
-
-                            })
-                            console.log('updateTask', update_todos);
-                        })
-
-                    })
+              // Update the task with the provided taskId
+              const updatedTodos = todos.map(todo => {
+                if (todo.id == Number(taskId)) {
+                  return {
+                    ...todo,
+                    task: taskName
+                  };
                 }
-            }
-        })
+                return todo;
+              });
 
-    } else {
-        console.log(' not found  ');
-    }
+              // Write the updated data back to the file
+              fs.writeFile(pathData, JSON.stringify(updatedTodos, null, 2), (err) => {
+                if (err) {
+                  console.error('Error writing to the file:', err);
+                } else {
+                  console.log('Successfully updated task:', updatedTodos);
+                }
+              });
+            });
+          });
+        }
+      }
+    });
+  } else {
+    console.log('File not found!'); // Display a clear message if the file doesn't exist
+  }
 }
 
 module.exports = {
-    updateTask
-}
+  updateTask
+};
