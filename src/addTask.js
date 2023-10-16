@@ -31,7 +31,7 @@ function addTask() {
             // Add the new task to the todos array with a random ID
             const newTask = {
               id: randomId,
-              task: taskName,
+              name: taskName,
             };
             todos.push(newTask);
 

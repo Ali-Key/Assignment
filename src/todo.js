@@ -14,11 +14,9 @@ const rl = readline.createInterface({
 function operation() {
   // Prompt the user to enter an action (add, display, update, delete)
   rl.question("Enter the action you want to perform (add, display, update, delete): ", (action) => {
-    // Normalize the user's input to lowercase for case-insensitive comparison
-    const normalizedAction = action.toLowerCase();
+  
 
-    // Based on the user's action, call the corresponding function or display an error message
-    switch (normalizedAction) {
+    switch (action) {
       case 'add':
         addTask(); // Call the function to add a task
         break;

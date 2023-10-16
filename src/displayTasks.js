@@ -1,9 +1,10 @@
 const fs = require('fs');
 
 function displayTasks() {
-    const pathData = './data.json';
+  const pathData = './data.json';
+  
   // Check if the file exists
-  if (fs.existsSync()) {
+  if (fs.existsSync(pathData)) {
     // Read the file asynchronously with UTF-8 encoding
     fs.readFile(pathData, 'utf8', (err, data) => {
       if (err) {

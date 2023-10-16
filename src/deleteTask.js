@@ -30,7 +30,7 @@ function deleteTask() {
                 if (err) {
                   console.error('Error writing to the file:', err);
                 } else {
-                  console.log('Successfully deleted task:', updatedDataJson);
+                  console.log('Successfully deleted task:' , updatedDataJson);
                 }
               });
             }
