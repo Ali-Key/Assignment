@@ -1,35 +1,26 @@
 const readline = require('readline');
-const { display } = require('./displayAll');
-const { addTodo } = require('./addTodo');
-const { updateTodo } = require('./updateTodo');
-const { deleteTodo } = require('./deleteTodo');
+const {displayTask} = require('./displayTasks')
+const { addTask } = require('./addTask');
+const {updateTask} = require ('./updateTask')
+const {deleteTask} = require('./deleteTask')
 
 const rl = readline.createInterface({
-input: process.stdin,
-output: process.stdout
-});
-
-// Prompt for the action to perform
-rl.question("Enter the action you want to perform (add, display, update, delete): ", (input) => {
-const action = input.toLowerCase();
+    input: process.stdin,
+    output: process.stdout
+})
 
 
-switch (action) {
-    case 'add':
-        addTodo();
-        break;
-    case 'display':
-        display();
-        break;
-    case 'update':
-        updateTodo();
-        break;
-    case 'delete':
-        deleteTodo();
-        break;
-    default:
-        console.log('Invalid action entered for update operation');
+
+rl.question("Enter The Action Do You Want ( display all , add ,  update , delete )? : ", (input) => {
+    if (input.toLowerCase() == 'display ') {
+        displayTask();
+    } else if (input.toLowerCase() == 'add') {
+        addTask();
+    } else if (input.toLowerCase() == 'update') {
+        updateTask();
+    } else if (input.toLowerCase() == 'delete') {
+        deleteTask();
+    } else {
+        console.log('Invalid input type of opretion');
     }
-
-rl.close();
-});
+})
